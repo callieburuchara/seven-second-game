@@ -1,0 +1,27 @@
+<h1>Game Setup</h1>
+
+
+<!-- All setting options go here
+  Only display certain settings if the user is signed in
+-->
+<form method='post' action='/game/settings'>
+  <div class="form-group">
+      <label for="playeramount">How many players?</label>
+      <select class="form-control" id="playeramount" name='playeramount'> 
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+      </select>
+  </div>
+  
+  <div class="form-group">
+      <label for="allplayernames">All Player Names</label>
+      <textarea class="form-control" name="allplayernames" id="allplayernames" rows="3"><%= params[:allplayernames] %></textarea>
+      <small id="emailHelp" class="form-text text-muted">Write all the player names with each name <strong>separated by one space</strong></small>
+  </div>
+
+  <button type='submit' class='btn btn-primary btn-block'><strong>BEGIN GAME</strong></button>
+</form>
+

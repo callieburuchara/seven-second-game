@@ -1,0 +1,81 @@
+#full-site {
+  max-width: 700px;
+  margin: auto; 
+  display: grid;
+}
+
+.home-buttons {
+  display: grid;
+  justify-items: center; 
+}
+
+h1 {
+  margin: 30px 0px 10px 0px;
+  font-family: 'Architects Daughter', mono;
+  font-size: 41px;
+  justify-self: center;
+}
+
+h2 {
+  margin: 30px 0px;
+  font-family: 'Architects Daughter', mono;
+  font-size: 50px;
+  justify-self: center;
+}
+
+h4 {
+  font-family: Lato;
+  font-weight: 500;
+  margin-bottom: 30px;
+  justify-self: center;
+}
+
+h6 {
+  font-family: 'Architects Daughter', mono;
+  justify-self: center;
+  font-style: italic;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+p {
+  font-family: Lato;
+  font-size: 18px;
+}
+
+form.full-width {
+  width: 700px;
+  margin: 10px;
+  justify-self: center;
+}
+
+div.aside {
+  background-color: #cbf4f7;
+  font-weight: light;
+  font-size: 17px;
+  width: 500px;
+  display: grid;
+  justify-self: center;
+  padding: 20px;
+  border: 1px solid #72cfd6;
+ }
+
+.aside p {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 22px;
+}
+
+.flash {
+  position: absolute;
+  width: 700px;
+  background-color: #ffdd99;
+  font-style: italic;
+  color: grey;
+  text-align: center;
+}
+
+.form-group label {
+  font-family: Lato;
+  font-size: 20px;
+}

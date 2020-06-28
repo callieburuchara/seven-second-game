@@ -1,0 +1,46 @@
+<h1>Please sign up</h1>
+
+<form>
+  <div class="form-group">
+    <label for="username">Email address</label>
+    <input name='username' class="form-control" id="username" aria-describedby="emailHelp">
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" name= 'password' id="password">
+    <small id="emailHelp" class="form-text text-muted">Password must be between 6-12 characters, use both lower and uppercase, and have at least one number.</small>
+   </div>
+
+
+  
+  <button type="submit" class="btn btn-success btn-block">Submit</button>
+</form>
+<br><br>
+
+
+<div class='aside'>
+  <p>  When you have an account, you can:
+    <ul>
+      <li>change the amount of challenges each player has each turn</li>
+      <li>change the amount of rounds per game</li>
+      <li>select what kind of challenges you want</li>
+      <li>even add your own challenges!</li>
+    </ul>
+  </p>
+</div>
+
+<br><br>
+<div class='full-width'>
+  <form method='get' action='/signin' >
+    <p>Already have an account?</p>
+    <button type='submit' class='btn btn-primary btn-block'>Sign In</button>
+  </form>
+  
+<br>
+
+  <form method='get' action='/home'>
+    <button type="submit" class="btn btn-secondary btn-block">Homepage</button>
+  </form>
+</div>
+
+

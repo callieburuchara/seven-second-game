@@ -1,0 +1,21 @@
+<!DOCTYPEhtml>
+<html>
+
+  <head>
+    <title>Seven Second Game</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Lato:wght@300;400;900&display=swap" rel="stylesheet">
+    <link rel='icon' href='/images/favicon.ico'>
+    <link rel='stylesheet' href='/stylesheets/seven.css'>
+  </head>
+
+  <body>
+    <div id='full-site'>
+      <% if session[:message] %>
+        <p class='flash'><%= session.delete(:message) %></p>
+      <% end %>
+      <%= yield %>
+    </div>
+  </body>
+
+</html>

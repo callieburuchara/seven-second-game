@@ -11,8 +11,8 @@
 
   <body>
     <div id='full-site'>
-      <% if session[:message] %>
-        <p class='flash'><%= session.delete(:message) %></p>
+      <% if session[:error] %>
+        <p class='flash'><%= session.delete(:error) %></p>
       <% end %>
       <%= yield %>
     </div>

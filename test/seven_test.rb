@@ -51,7 +51,7 @@ class SevenTest < Minitest::Test
     assert_equal 302, last_response.status
     assert_equal "text/html;charset=utf-8", last_response["Content-Type"]
 
-    assert_includes session[:message], "Here's a familiar place"
+    assert_includes session[:error], "Here's a familiar place"
   end
   
   def test_signin_page
@@ -61,7 +61,7 @@ class SevenTest < Minitest::Test
     assert_includes last_response.body, "Please sign in" && "Don't have an account?"
   end
 
-  def test_singup_page
+  def test_signup_page
     get '/signup'
     assert_equal 200, last_response.status
     assert_equal "text/html;charset=utf-8", last_response["Content-Type"]

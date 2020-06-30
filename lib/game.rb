@@ -54,6 +54,8 @@ end
 class Game
   NUMBER_WORDS = %w(first second third fourth fifth sixth seventh eighth)
 
+  attr_accessor :player_turns_amount, :round_amount, :challenge_type, :current_player, :current_round
+
   def initialize(player_turns_amount = 1, round_amount = 2, challenge_type = 'all')
     @player_turns_amount = player_turns_amount
     @round_amount = round_amount
@@ -226,7 +228,6 @@ class Game
 end
 
 
-Game.new.play
 
 
 
@@ -266,30 +267,30 @@ Game.new.play
 
 
 
-  def select_next_player
-    if @current_player.nil?
-      current_player = session[:playernames][0]
-    else
-      next_index = session[:playernames].index(@current_player) + 1
-      if session[:playernames][next_index].nil?
-        round_ends
-      else
-        @current_player = session[:playernames][next_index]
-      end
-    end
-  end
-
-  def display_are_you_ready
-  end
-
-  def display_challenge
-    @challenge = "Use someone's foot as a telephone"
-  end
-
-  def round_ends
-    return game_ends if session[:roundamount] == session[:currentround]
-
-    session[:display] = "Round #{session[:currentround]} is done!"
-  end
-
+#   def select_next_player
+#     if @current_player.nil?
+#       current_player = session[:playernames][0]
+#     else
+#       next_index = session[:playernames].index(@current_player) + 1
+#       if session[:playernames][next_index].nil?
+#         round_ends
+#       else
+#         @current_player = session[:playernames][next_index]
+#       end
+#     end
+#   end
+# 
+#   def display_are_you_ready
+#   end
+# 
+#   def display_challenge
+#     @challenge = "Use someone's foot as a telephone"
+#   end
+# 
+#   def round_ends
+#     return game_ends if session[:roundamount] == session[:currentround]
+# 
+#     session[:display] = "Round #{session[:currentround]} is done!"
+#   end
+# 
 

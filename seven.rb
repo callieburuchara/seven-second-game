@@ -5,7 +5,7 @@ require 'tilt/erubis'
 require 'yaml'
 require 'bcrypt'
 
-#require_relative '/lib/game'
+require_relative 'lib/game'
 
 configure do
   enable :sessions
@@ -13,7 +13,7 @@ configure do
 end
 
 not_found do
-  session[:message] = "Alas, that page doesn't exist. Here's a familiar place."
+  session[:error] = "Alas, that page doesn't exist. Here's a familiar place."
   redirect back
   # this takes me back a page, but I want it to stay on the current page
   # and display the error message. Not sure how to do that.   
@@ -25,22 +25,56 @@ helpers do
 end
 
 before do
-
+  pass unless request.path.include?('/play')
+  @game = session[:game]
+  @current_round = @game.current_round
+  @player_amount = session[:playeramount]
+  @challenge_type = @game.challenge_type
+  @all_names = session[:allplayernames]
 end
 
 # --------------------- LOGIC/NON HELPER METHODS -------------------
 
 def validate_settings
   all_names_amount = params[:allplayernames].split.size
+  session[:allplayernames] = params[:allplayernames]
+  session[:playeramount] = params[:playeramount]
   if params[:playeramount].to_i != all_names_amount
-    session[:message] = "Please provide #{params[:playeramount]} names."
+    session[:error] = "Please provide #{params[:playeramount]} names."
     redirect back
   end
 end
 
-def get_challenges
+def initialize_challenges
+  challenges = YAML.load_file('data/challenges.yml')
   if session[:challengetype] == 'physical'
-    @challenges = 
+    @challenges = challenges['physical'].shuffle
+  elsif session[:challengetype] == 'verbal'
+    @challenges = challenges['verbal'].shuffle
+  else
+    @challenges = (challenges['physical'] + challenges['verbal']).shuffle
+  end
+end
+
+def initialize_players
+  number = session[:playeramount].to_i
+  @all_players = []
+  
+  number.times do |idx|
+    @all_players << Player.new(session[:allplayernames][idx])
+  end
+end
+
+def initialize_game
+  initialize_challenges
+  initialize_players
+  @game = Game.new(session[:playerturns], session[:roundamount], session[:challengetype])
+  session[:game] = @game
+  @each_turn_amount = @game.player_turns_amount
+  @current_round = @game.current_round
+  @player_amount = session[:playeramount]
+  @challenge_type = @game.challenge_type
+  @all_names = session[:allplayernames]
 end
 
 # --------------------- ROUTES ---------------------------
@@ -82,12 +116,14 @@ end
 
 # Play a game
 get '/game/play' do
-  get_challenges
+  
   erb :play
 end
 
+
 # View game settings
 get '/game/settings' do
+  params[:allplayernames] = params[:allplayernames].inspect
   session[:playerturns] = 1
   session[:roundamount] = 5
   session[:currentround] = 1
@@ -102,8 +138,9 @@ get '/game/settings' do
   erb :settings
 end
 
-# Submit and validate game settings
+# Submit and validate game settings and initialize all game details before redirecting to game page
 post '/game/settings' do
   validate_settings
+  initialize_game
   redirect '/game/play'
 end

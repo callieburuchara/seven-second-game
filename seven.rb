@@ -21,24 +21,34 @@ end
 
 
 helpers do
-
+  def display_ready_when_first_turn(player)
+    return "Is #{player.name} ready for their turn?" if player.turn == 1
+  end
 end
 
 before do
   pass unless request.path.include?('/play')
   @game = session[:game]
+  @challenges = session[:challenges]
   @current_round = @game.current_round
+  @each_turn_amount = @game.player_turns_amount
   @player_amount = session[:playeramount]
   @challenge_type = @game.challenge_type
   @all_names = session[:allplayernames]
+  @round_amount = @game.round_amount
+  @all_players = session[:allplayers]
+  @current_player_index = @game.current_player
+  @current_player = @all_players[@current_player_index]
+  @current_turn = @current_player.turn
 end
 
 # --------------------- LOGIC/NON HELPER METHODS -------------------
 
 def validate_settings
   all_names_amount = params[:allplayernames].split.size
-  session[:allplayernames] = params[:allplayernames]
-  session[:playeramount] = params[:playeramount]
+  session[:allplayernames] = params[:allplayernames].split
+  session[:playeramount] = all_names_amount
+  
   if params[:playeramount].to_i != all_names_amount
     session[:error] = "Please provide #{params[:playeramount]} names."
     redirect back
@@ -48,11 +58,11 @@ end
 def initialize_challenges
   challenges = YAML.load_file('data/challenges.yml')
   if session[:challengetype] == 'physical'
-    @challenges = challenges['physical'].shuffle
+    challenges['physical'].shuffle
   elsif session[:challengetype] == 'verbal'
-    @challenges = challenges['verbal'].shuffle
+    challenges['verbal'].shuffle
   else
-    @challenges = (challenges['physical'] + challenges['verbal']).shuffle
+    (challenges['physical'] + challenges['verbal']).shuffle
   end
 end
 
@@ -63,18 +73,20 @@ def initialize_players
   number.times do |idx|
     @all_players << Player.new(session[:allplayernames][idx])
   end
+  session[:allplayers] = @all_players
 end
 
 def initialize_game
-  initialize_challenges
+  session[:challenges] = initialize_challenges
   initialize_players
   @game = Game.new(session[:playerturns], session[:roundamount], session[:challengetype])
   session[:game] = @game
-  @each_turn_amount = @game.player_turns_amount
   @current_round = @game.current_round
   @player_amount = session[:playeramount]
   @challenge_type = @game.challenge_type
   @all_names = session[:allplayernames]
+  @round_amount = @game.round_amount
+  @current_player = @game.current_player
 end
 
 # --------------------- ROUTES ---------------------------
@@ -116,16 +128,19 @@ end
 
 # Play a game
 get '/game/play' do
-  
   erb :play
+end
+
+get '/game/play/challenge' do
+  erb :challenge
 end
 
 
 # View game settings
 get '/game/settings' do
-  params[:allplayernames] = params[:allplayernames].inspect
-  session[:playerturns] = 1
-  session[:roundamount] = 5
+#  params[:allplayernames] = params[:allplayernames].inspect
+  session[:playerturns] = 4
+  session[:roundamount] = 3
   session[:currentround] = 1
   session[:playeramount] = 2
   session[:challengetype] = 'all'

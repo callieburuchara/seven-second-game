@@ -1,4 +1,19 @@
 <h1>Seven Second Game</h1>
 
+<h3>Current round: <%= @current_round %> out of <%= @round_amount %></h3>
+
+<h6><u>Current scores</u>:<br>
+  <%= @all_players.map { |player| "#{player.name}: #{player.score}" }.join(' -- ') %>
+</h6>
+
+<h6><u>Current player & Current turn:</u><br>
+  <%= @current_player.name %>: turn # <%= @current_player.turn %> out of <%= @each_turn_amount %>
+</h6>
+
+<h6><%= display_ready_when_first_turn(@current_player) %></h6>
+
+<form method='get' action='/game/play/challenge'>
+  <button type="submit" class="btn btn-outline-success">Ready!</button>
+</form>
 
 

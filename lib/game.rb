@@ -1,8 +1,9 @@
 class Player
-  attr_accessor :name, :score
+  attr_accessor :name, :score, :turn
   
   def initialize(name)
     @name = name
+    @turn = 1
     # ask for the name of this player
     @score = 0
   end
@@ -28,6 +29,10 @@ class Player
     end
     approve_performance if answer == 'yes'
     puts "Noted. On to the next!"
+  end
+
+  def next_turn
+    self.turn += 1
   end
 end
 
@@ -133,6 +138,10 @@ class Game
     end
     
     increment_round
+  end
+
+  def turn_over?(player)
+    player.turn == @player_turns_amount
   end
 
   def increment_round

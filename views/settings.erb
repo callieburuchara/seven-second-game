@@ -18,7 +18,7 @@
   
   <div class="form-group">
       <label for="allplayernames">All Player Names</label>
-      <textarea class="form-control" name="allplayernames" id="allplayernames" rows="3"><%= session[:allplayernames] %></textarea>
+      <textarea class="form-control" name="allplayernames" id="allplayernames" rows="3"><%= session[:allplayernames].join(' ') %></textarea>
       <small id="emailHelp" class="form-text text-muted">Write all the player names with each name <strong>separated by one space</strong></small>
   </div>
 
